@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  # ini adalah layanan item-app yang akan di run menjadi container khusus sebagai app
+  item-app:
+    # pull image dari repository pribadi di github
+    image: ghcr.io/mollshf/item-app:v1
+    # membuka port 80 pada host agar bisa meng-akses container
+    ports:
+      - 80:8080
+    # memberikan jaringan bertipe bridge pada container
+    networks:
+      - super-network
+    # mode container item-app akan aktif kalau layanan item-db sudah berjalan
+    depends_on:
+      - item-db
+    # atribut untuk membuat conatainer akan tetap aktif sampai di di hapus
+    restart: always
+
+  # ini adalah layanan item-db yang akan di run menjadi container khusus sebagai database
+  item-db:
+    # pull image databse mongo dari repository docker host
+    image: mongo:3
+    # membuat volume pada path container yang ditentukan agar data tersebut disimpan pada mesin host
+    volumes:
+      - app-db:/data/db
+    # memberikan jaringan bertipe bridge pada container
+    networks:
+      super-network:
+        # dan memberikan network alias (DNS local pada container) agar mempermudah mengakses container, cukup menggunakan alias dan port untuk bisa terhubung
+        aliases:
+          - item-db
+    # atribut untuk membuat conatainer akan tetap aktif sampai di di hapus
+    restart: always
+
+# mengonfigurasi network pada service
+networks:
+  # menetapkan super-network adalah bridge network
+  super-network:
+    # menentukan driver network
+    driver: bridge
+
+# mengonfigurasi volumes pada service
+volumes:
+  app-db:
