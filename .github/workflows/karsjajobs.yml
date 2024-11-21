@@ -27,4 +27,4 @@ jobs:
       - name: build-app-karsajobs
         run: ./build_push_image_karsajobs.sh
         env:
-          CR_PAT: ${{ secrets.GITHUB_TOKEN }}
+          CR_PAT: ${{ secrets.CR_PAT }}
