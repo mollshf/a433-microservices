@@ -9,5 +9,5 @@ docker tag karsajobs-ui:latest ghcr.io/mollshf/karsajobs-ui:latest
 # melakukan login github package container menggunakan token yang dibuat pada akun github
 echo $CR_PAT | docker login ghcr.io -u mollshf --password-stdin
 
-# Push image ke github package contianer
+# Push image ke github package contianerr
 docker push ghcr.io/mollshf/karsajobs-ui:latest
